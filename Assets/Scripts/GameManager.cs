@@ -38,6 +38,8 @@ public class GameManager : MonoBehaviour
         if (currentScore >= scoreToWin)
         {
             if (winPanel != null) winPanel.SetActive(true);
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
             Time.timeScale = 0f;
         }
     }

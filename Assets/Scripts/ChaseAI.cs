@@ -4,36 +4,48 @@ using UnityEngine.AI;
 public class ChaseAI : MonoBehaviour
 {
     public Transform player;
+    public Transform[] waypoints;
     private NavMeshAgent agent;
-    private bool isChasing = false;
+    private int currentWaypoint = 0;
+    private bool chasing = false;
 
-    void Start()
+    public float chaseDistance = 8f; // detection radius
+
+    private void Start()
     {
         agent = GetComponent<NavMeshAgent>();
+        PatrolToNextWaypoint();
     }
 
-    void Update()
+    private void Update()
     {
-        if (isChasing && player != null)
+        float distanceToPlayer = Vector3.Distance(transform.position, player.position);
+
+        if (distanceToPlayer < chaseDistance)
         {
-            agent.destination = player.position;
+            chasing = true;
+            agent.SetDestination(player.position);
+        }
+        else
+        {
+            if (chasing)
+            {
+                chasing = false;
+                PatrolToNextWaypoint();
+            }
+
+            if (!agent.pathPending && agent.remainingDistance < 0.5f)
+            {
+                PatrolToNextWaypoint();
+            }
         }
     }
 
-    private void OnTriggerEnter(Collider other)
+    private void PatrolToNextWaypoint()
     {
-        if (other.CompareTag("Player"))
-        {
-            player = other.transform;
-            isChasing = true;
-        }
-    }
+        if (waypoints.Length == 0) return;
 
-    private void OnTriggerExit(Collider other)
-    {
-        if (other.CompareTag("Player"))
-        {
-            isChasing = false;
-        }
+        agent.SetDestination(waypoints[currentWaypoint].position);
+        currentWaypoint = (currentWaypoint + 1) % waypoints.Length;
     }
 }
