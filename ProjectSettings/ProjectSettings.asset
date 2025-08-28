@@ -12,7 +12,7 @@ PlayerSettings:
   targetDevice: 2
   useOnDemandResources: 0
   accelerometerFrequency: 60
-  companyName: DefaultCompany
+  companyName: Luna Wolf Studios
   productName: Udacity Level 5 Digital Arts T2 C6 Project 2 Example Project
   defaultCursor: {fileID: 0}
   cursorHotspot: {x: 0, y: 0}
