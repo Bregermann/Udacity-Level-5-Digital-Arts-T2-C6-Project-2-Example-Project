@@ -8,6 +8,7 @@ public class GameManager : MonoBehaviour
 
     [Header("UI References")]
     public GameObject gameOverPanel;
+
     public GameObject winPanel;
     public TextMeshProUGUI scoreText;
 
@@ -26,6 +27,9 @@ public class GameManager : MonoBehaviour
     public void GameOver()
     {
         if (gameOverPanel != null) gameOverPanel.SetActive(true);
+        // Unlock and show the cursor
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
         Time.timeScale = 0f;
     }
 
@@ -41,6 +45,9 @@ public class GameManager : MonoBehaviour
     public void RestartGame()
     {
         Time.timeScale = 1f;
+        // Lock cursor again for gameplay
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
